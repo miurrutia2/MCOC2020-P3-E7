@@ -4,7 +4,7 @@ from calor_de_hidratacion import Calor_de_hidratacion as q
 
 #Geometría
 a = 0.54 #Alto en m (540 cm) 
-b = .5 #Ancho en m (500 cm) 
+b = 0.5 #Ancho en m (500 cm) 
 c = 1.04 #Profundidad en m (1040 cm)
 
 
@@ -61,9 +61,9 @@ u_k[:, :, :] = 20. #Son 20 grados en todas partes
 
 #Parámetros para el hierro
 dt = 0.01 #s
-K = 79.5 #m^2/s
-c = 450. #J/Kg*C
-rho = 7800. #Kg/m^3
+K = 0.001495 
+c = 1.023 
+rho = 2476. 
 alpha = K * dt / (c * rho * dx**2)
 
 #Informacion interesante
@@ -85,7 +85,7 @@ dnext_t = 0.5 * hora
 next_t = 0
 framenum = 0
 
-T = 1 * dia
+T = .05 * dia
 Days = 1 * T #Cantidad de Dias a Simular
 
 #Vectores con temperatura acumulada
@@ -125,12 +125,12 @@ for k in range(int32(Days/dt)):
     t_ambiental = 20. + 10 * sin((2 * pi / T) * t)   
     
 #Condiciones de Borde Eseciales    
-    u_k[0, :, :] = 0. #Cara izquierda
-    u_k[-1, :, :] = 0. #Cada derecha
+    u_k[0, :, :] = u_k[ -2 ,: , : ] #Cara izquierda
+    u_k[-1, :, :] = u_k[ -2 ,: , : ] #Cada derecha
     u_k[:, -1, :] = t_ambiental #Cara superior
-    u_k[:, 0, :] = 0. #Cara inferior
-    u_k[:, :, 0] = 0. #Cara atras
-    u_k[:, :, -1] = 0. #Cara frente
+    u_k[:, 0, :] = u_k[ : ,-2 , : ]  #Cara inferior
+    u_k[:, :, 0] = u_k[ : ,: , -2 ] #Cara atras
+    u_k[:, :, -1] = u_k[ : ,: , -2 ] #Cara frente
     
 
 
@@ -143,7 +143,7 @@ for k in range(int32(Days/dt)):
                 
                 #Laplaciano
                 nabla_u_k = (u_k[i-1, j,k] + u_k[i+1, j,k] + u_k[i, j-1,k] + u_k[i, j+1,k] + u_k[i, j, k-1]
-                 + u_k[i, j, k+1] - 9 * u_k[i,j,k]) 
+                 + u_k[i, j, k+1] - 6 * u_k[i,j,k]) 
                 
                 #Forard Euler
                 u_km1[i,j,k] = u_k[i,j,k] + alpha * nabla_u_k + q(t,DC = 360.)
@@ -153,15 +153,15 @@ for k in range(int32(Days/dt)):
     
     #Reetablecen condiciones de Borde para asegurar cumplimiento
 
-    u_k[0, :, :] = 0. #Cara izquierda
-    u_k[-1, :, :] = 0. #Cada derecha
+    u_k[0, :, :] = u_k[ -2 ,: , : ] #Cara izquierda
+    u_k[-1, :, :] = u_k[ -2 ,: , : ] #Cada derecha
     u_k[:, -1, :] = t_ambiental #Cara superior
-    u_k[:, 0, :] = 0. #Cara inferior
-    u_k[:, :, 0] = 0. #Cara atras
-    u_k[:, :, -1] = 0. #Cara frente
+    u_k[:, 0, :] = u_k[ : ,-2 , : ]  #Cara inferior
+    u_k[:, :, 0] = u_k[ : ,: , -2 ] #Cara atras
+    u_k[:, :, -1] = u_k[ : ,: , -2 ] #Cara frente
     
-    sensor1[k] = u_k[int(Nx / 2), int(Ny / (500/30)), int(Nz / 2)]
-    sensor2[k] = u_k[int(Nx / 2), int(Ny / (500/140)), int(Nz / 2)]
+    sensor1[k] = u_k[int(Nx / 2), int(Ny * 30 / 500), int(Nz / 2)]
+    sensor2[k] = u_k[int(Nx / 2), int(Ny * 140 / 500), int(Nz / 2)]
     sensor3[k] = u_k[int(Nx / 2), int(Ny / (500/250)), int(Nz / 2)]
     sensor4[k] = u_k[int(Nx / 2), int(Ny / (500/360)), int(Nz / 2)]
     sensor5[k] = u_k[int(Nx / 2), int(Ny / (500/470)), int(Nz / 2)]
@@ -189,7 +189,7 @@ for k in range(int32(Days/dt)):
         
         
 #Ploteo puntos interesantes
-figure(2)
+figure(1)
 plot(range(int32(Days / dt)), sensor1, label='Sensor1')
 plot(range(int32(Days / dt)), sensor2, label='Sensor2')
 plot(range(int32(Days / dt)), sensor3, label='Sensor3')
