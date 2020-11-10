@@ -85,7 +85,7 @@ dnext_t = 0.5 * hora
 next_t = 0
 framenum = 0
 
-T = .05 * dia
+T = 1 * dia
 Days = 1 * T #Cantidad de Dias a Simular
 
 #Vectores con temperatura acumulada
