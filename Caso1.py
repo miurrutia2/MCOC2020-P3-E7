@@ -2,6 +2,7 @@ from matplotlib.pylab import *
 from matplotlib import cm
 
 
+
 #Geometría
 a = 0.5 #Alto
 b = 0.54 #Ancho
@@ -14,7 +15,7 @@ dy = a / Ny #Discretizacion en Y
 
 if dx != dy:
     print("Error: dx y dy no son iguales")
-    exit(-1)   
+
 
 h = dx
 
@@ -115,6 +116,7 @@ next_t = 0
 framenum = 0
 
 T = 1 * dia
+
 Days = 2 * T #Cantidad de Dias a Simular
 
 q = Calor_de_hidratacion(Days)
@@ -129,6 +131,7 @@ P1 = zeros(int32(Days / dt))
 P2 = zeros(int32(Days / dt))
 P3 = zeros(int32(Days / dt))
 
+
 def truncate(n, decimals=0):
     multiplier = 10 ** decimals
     return int(n* multiplier) / multiplier
@@ -141,6 +144,7 @@ for k in range(int32(Days/dt)):
     minutos = truncate((t - dias * dia -horas * hora) / minuto, 0)
     titulo = "k = {0:05.0f}".format(k) + " t = {0:02.0f}d {1:02.0f}h {2:02.0f}m ".format(dias, horas, minutos)
     print(titulo)
+
             
     Tambiental = 20. + 10.*sin((2*pi/T)*t) 
     
@@ -149,12 +153,14 @@ for k in range(int32(Days/dt)):
     u_k[:, 0] = u_k[:, 1] - 0. * dy #Borde Inferior
     u_k[:, -1] = Tambiental #Borde Superior
     u_k[-1, :] = u_k[-2, :] + 0. * dx #Borde Derecho
+
     
 
 
     # Loop en el espacio desde i = 1, hasta i = n-1
     for i in range(1,Nx):
         for j in range(1,Ny):
+
             
             #Algortimo de diferencias finitas en 2-D para difusion
             
@@ -218,22 +224,24 @@ legend()
 savefig("Caso_1_puntos.png", dpi=320)
 show() '''
     
-    sensor1[k] = u_k[int(Nx / 2), int(Ny / (500/30)), int(Nz / 2)]
-    sensor2[k] = u_k[int(Nx / 2), int(Ny / (500/140)), int(Nz / 2)]
-    sensor3[k] = u_k[int(Nx / 2), int(Ny / (500/250)), int(Nz / 2)]
-    sensor4[k] = u_k[int(Nx / 2), int(Ny / (500/360)), int(Nz / 2)]
-    sensor5[k] = u_k[int(Nx / 2), int(Ny / (500/470)), int(Nz / 2)]
-    sensor6[k] = u_k[int(Nx / (540/30)), int(Ny / 2), int(Nz / 2)]
-    sensor7[k] = u_k[int(Nx / (540/510)), int(Ny / 2), int(Nz / 2)]
-    sensor8[k] = u_k[int(Nx / (540/30)), int(Ny / 2), int(Nz / 2)]
-    sensor9[k] = u_k[int(Nx / (540/150)), int(Ny / 2), int(Nz / 2)]
-    sensor10[k] = u_k[int(Nx / (540/270)), int(Ny / 2), int(Nz / 2)]
-    sensor11[k] = u_k[int(Nx / (540/390)), int(Ny / 2), int(Nz / 2)]
-    sensor12[k] = u_k[int(Nx / (540/510)), int(Ny / 2), int(Nz / 2)]
-    sensor13[k] = u_k[int(Nx / 2), int(Ny / 2), int(Nz / (1040/30))]
-    sensor14[k] = u_k[int(Nx / 2), int(Ny / 2), int(Nz / (1040/275))]
-    sensor15[k] = u_k[int(Nx / 2), int(Ny / 2), int(Nz / (1040/765))]
-    sensor16[k] = u_k[int(Nx / 2), int(Ny / 2), int(Nz / (1040/1010))]
+
+    
+sensor1[k] = u_k[int(Nx / 2), int(Ny * 30 / 500), int(Nz / 2)]
+sensor2[k] = u_k[int(Nx / 2), int(Ny * 140 / 500), int(Nz / 2)]
+sensor3[k] = u_k[int(Nx / 2), int(Ny / (500/250)), int(Nz / 2)]
+sensor4[k] = u_k[int(Nx / 2), int(Ny / (500/360)), int(Nz / 2)]
+sensor5[k] = u_k[int(Nx / 2), int(Ny / (500/470)), int(Nz / 2)]
+sensor6[k] = u_k[int(Nx / (540/30)), int(Ny / 2), int(Nz / 2)]
+sensor7[k] = u_k[int(Nx / (540/510)), int(Ny / 2), int(Nz / 2)]
+sensor8[k] = u_k[int(Nx / (540/30)), int(Ny / 2), int(Nz / 2)]
+sensor9[k] = u_k[int(Nx / (540/150)), int(Ny / 2), int(Nz / 2)]
+sensor10[k] = u_k[int(Nx / (540/270)), int(Ny / 2), int(Nz / 2)]
+sensor11[k] = u_k[int(Nx / (540/390)), int(Ny / 2), int(Nz / 2)]
+sensor12[k] = u_k[int(Nx / (540/510)), int(Ny / 2), int(Nz / 2)]
+sensor13[k] = u_k[int(Nx / 2), int(Ny / 2), int(Nz / (1040/30))]
+sensor14[k] = u_k[int(Nx / 2), int(Ny / 2), int(Nz / (1040/275))]
+sensor15[k] = u_k[int(Nx / 2), int(Ny / 2), int(Nz / (1040/765))]
+sensor16[k] = u_k[int(Nx / 2), int(Ny / 2), int(Nz / (1040/1010))]
 
     #Graicando en d_next
     #if t >= next_t:
@@ -247,7 +255,9 @@ show() '''
         
         
 #Ploteo puntos interesantes
+
 figure(2)
+
 plot(range(int32(Days / dt)), sensor1, label='Sensor1')
 plot(range(int32(Days / dt)), sensor2, label='Sensor2')
 plot(range(int32(Days / dt)), sensor3, label='Sensor3')
@@ -267,4 +277,6 @@ plot(range(int32(Days / dt)), sensor16, label='Sensor16')
 title("Evolución de temperatura")
 legend()
 savefig("Caso_1.png", dpi=320)
+
 show()
+
