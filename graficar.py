@@ -5,7 +5,7 @@ import datetime as dt
 time_format = "%d-%m-%y %H:%M:%S"
 
 fname = 'caso_1_camara_de_curado.csv' #Caso 1: Camara de curado
-# fname = 'caso_2_intemperie.csv'       #Caso 2: Intemperie
+#fname = 'caso_2_intemperie.csv'       #Caso 2: Intemperie
 
 
 archivo = open(fname) 
